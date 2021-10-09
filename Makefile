@@ -9,4 +9,4 @@ mnt:
 
 .PHONY: run_qemu
 run_qemu: build mnt
-	qemu-system-x86_64 --bios bios/RELEASEX64_OVMF.fd -drive format=raw,file=fat:rw:mnt
+	qemu-system-x86_64 -bios RELEASEX64_OVMF.fd -drive format=raw,file=fat:rw:mnt
