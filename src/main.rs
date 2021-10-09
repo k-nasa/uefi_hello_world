@@ -4,8 +4,14 @@
 mod uefi;
 
 #[no_mangle]
-fn efi_main(_image: uefi::Handle, _stable: &'static uefi::SystemTable) -> uefi::Status {
-    return uefi::Status::SUCCESS;
+fn efi_main(_image: uefi::Handle, stable: &'static uefi::SystemTable) -> uefi::Status {
+    let stdout = stable.stdout();
+    stdout.reset(true);
+
+    stdout.output_string("Hey!!");
+
+    loop {}
+    // return Status::SUCCESS;
 }
 
 #[panic_handler]

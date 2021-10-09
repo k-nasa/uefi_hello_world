@@ -18,7 +18,7 @@ pub struct SystemTable {
     con_in: UnimplementFunctionPointor,
 
     console_out_handle: Handle,
-    con_out: UnimplementFunctionPointor,
+    con_out: *mut SimpleTextOutputProtocol,
 
     std_error_handle: Handle,
     std_err: UnimplementFunctionPointor,
@@ -26,6 +26,37 @@ pub struct SystemTable {
     boot_services: UnimplementFunctionPointor,
     number_of_table_entries: usize,
     configuration_table: UnimplementFunctionPointor,
+}
+
+#[repr(C)]
+pub struct SimpleTextOutputProtocol {
+    reset: fn(this: &SimpleTextOutputProtocol, extended: bool) -> Status,
+    output_string: fn(this: &SimpleTextOutputProtocol, string: *const u16) -> Status,
+    _resb2: u128,
+}
+
+impl SystemTable {
+    pub fn stdout(&self) -> &mut SimpleTextOutputProtocol {
+        unsafe { &mut *self.con_out }
+    }
+}
+
+impl SimpleTextOutputProtocol {
+    pub fn reset(&self, extended: bool) -> Status {
+        unsafe { (self.reset)(self, extended) }
+    }
+
+    pub fn output_string(&self, string: &str) -> Status {
+        let iter = string.encode_utf16();
+
+        let mut buffer = [0u16; 255];
+
+        for (i, c) in iter.enumerate() {
+            buffer[i] = c
+        }
+
+        unsafe { (self.output_string)(self, buffer.as_ptr()) }
+    }
 }
 
 #[derive(Debug)]
