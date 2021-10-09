@@ -4,8 +4,8 @@
 mod uefi;
 
 #[no_mangle]
-fn efi_main(_image: uefi::Handle) -> ! {
-    loop {}
+fn efi_main(_image: uefi::Handle, _stable: &'static uefi::SystemTable) -> uefi::Status {
+    return uefi::Status::SUCCESS;
 }
 
 #[panic_handler]
