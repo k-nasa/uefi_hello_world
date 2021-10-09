@@ -1,8 +1,10 @@
 #![no_std]
 #![no_main]
 
+mod uefi;
+
 #[no_mangle]
-fn efi_main() -> usize {
+fn efi_main(_image: uefi::Handle) -> ! {
     loop {}
 }
 
