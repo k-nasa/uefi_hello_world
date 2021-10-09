@@ -43,7 +43,7 @@ impl SystemTable {
 
 impl SimpleTextOutputProtocol {
     pub fn reset(&self, extended: bool) -> Status {
-        unsafe { (self.reset)(self, extended) }
+        (self.reset)(self, extended)
     }
 
     pub fn output_string(&self, string: &str) -> Status {
@@ -55,7 +55,7 @@ impl SimpleTextOutputProtocol {
             buffer[i] = c
         }
 
-        unsafe { (self.output_string)(self, buffer.as_ptr()) }
+        (self.output_string)(self, buffer.as_ptr())
     }
 }
 
