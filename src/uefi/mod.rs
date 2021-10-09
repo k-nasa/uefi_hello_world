@@ -1,12 +1,34 @@
 use core::ffi::c_void;
 
+#[derive(Debug)]
 pub struct Handle(*mut c_void);
 
+#[derive(Debug)]
+pub struct UnimplementFunctionPointor(*mut c_void);
+
+#[derive(Debug)]
 #[repr(C)]
 pub struct SystemTable {
     header: Header,
+
+    fw_vendor: *const Char16,
+    fw_revision: u32,
+
+    console_in_handle: Handle,
+    con_in: UnimplementFunctionPointor,
+
+    console_out_handle: Handle,
+    con_out: UnimplementFunctionPointor,
+
+    std_error_handle: Handle,
+    std_err: UnimplementFunctionPointor,
+
+    boot_services: UnimplementFunctionPointor,
+    number_of_table_entries: usize,
+    configuration_table: UnimplementFunctionPointor,
 }
 
+#[derive(Debug)]
 #[repr(C)]
 struct Header {
     signature: u64,
@@ -25,3 +47,6 @@ pub enum Status {
     SUCCESS = 0,
     OUT_OF_RESOURCES = ERROR_BIT | 9,
 }
+
+#[derive(Debug)]
+pub struct Char16(u16);
