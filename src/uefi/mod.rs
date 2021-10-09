@@ -4,7 +4,7 @@ pub struct Handle(*mut c_void);
 
 #[repr(C)]
 pub struct SystemTable {
-    hdr: Header,
+    header: Header,
 }
 
 #[repr(C)]
