@@ -11,7 +11,6 @@ fn efi_main(_image: uefi::Handle, stable: &'static uefi::SystemTable) -> uefi::S
     stdout.output_string("Hey!!");
 
     loop {}
-    // return Status::SUCCESS;
 }
 
 #[panic_handler]
